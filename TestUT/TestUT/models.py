@@ -7,3 +7,12 @@ class MenuItem(models.Model):
 
     def __str__(self):
         return self.name
+
+    def render_menu(self):
+        menu_html = f'<li><a href="{self.url}">{self.name}</a></li>'
+        if self.children.exists():
+            menu_html += '<ul>'
+            for child in self.children.all():
+                menu_html += child.render_menu()
+            menu_html += '</ul>'
+        return menu_html
